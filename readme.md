@@ -6,9 +6,9 @@ The idea (and the UI) is inspired by Ian Coleman's Shamir39 but the cryptography
 
 ## Improvements over Ian Coleman's Shamir39:
 - shorter mnemonic: only one word more than bip39
-- stronger cryptography: instead of GF(2^8) uses GF(2^n), where n is enthropy length, meaning GF(2^128) for 12 word mnemonic or GF(2^256), but any other bip39 mnemonic between 3 and 96 words works.
+- stronger cryptography: instead of GF(2^8) uses GF(2^n), where n is enthropy length, meaning GF(2^128) for 12-word bip39 mnemonic or GF(2^256) for a 24-word bip39 mnemonic, but any other bip39 mnemonic between 3 and 96 words works (with dynamic GF dimension).
 - integrity checks: bip39- and StrongShamir39- checksum
-- bip39 compatibility: for x word bip39 phrase, you can store the last x words of StrongShamir39 mnemonic and the share number, then the mnemonic part is bip39 compatible (meaning: for an attacker it's a valid bip39 seed)
+- bip39 compatibility: for x word bip39 phrase, you can store the last x words of StrongShamir39 mnemonic and the share number, then the mnemonic part is a valid bip39 mnemonic (meaning: for an attacker it looks like a bip39 seed)
 
 ## Online Version
 
@@ -39,9 +39,10 @@ Make changes in `src/*` and apply them using the command `python compile.py`
 
 # ToDo
 
-- optimize for speed and memory usage: now LongBinary implemented as array of boolean, change it to Uint32Array)
 - clean up the console dumps and test code in comments
 - implement automatic testing routines
+- provide coding examples
+- optimize for speed and memory usage: now LongBinary implemented as array of boolean, change it to Uint32Array)
 - maybe: make another version with 2-level shares (groups and members like in SLIP39)
 
 # License
