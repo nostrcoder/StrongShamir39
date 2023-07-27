@@ -27,6 +27,7 @@ This can be compiled from source using the command `python compile.py`
 1. Web interface under:
 [nostrcoder.github.io/StrongShamir39/src/index.html](https://nostrcoder.github.io/StrongShamir39/src/index.html), or
 [nostrcoder.github.io/StrongShamir39/standalone.html](https://nostrcoder.github.io/StrongShamir39/standalone.html)
+
 2. Coding examples will be provided
 
 ## Making changes
@@ -41,7 +42,7 @@ Make changes in `src/*` and apply them using the command `python compile.py`
 - optimize for speed and memory usage: now LongBinary implemented as array of boolean, change it to Uint32Array)
 - clean up the console dumps and test code in comments
 - implement automatic testing routines
-- maybe: make another version with 2-level shares (groups and memers like in SLIP39)
+- maybe: make another version with 2-level shares (groups and members like in SLIP39)
 
 # License
 
