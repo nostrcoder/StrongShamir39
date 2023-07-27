@@ -1,4 +1,6 @@
-# Shamir Mnemonics Specification
+# StrongShamir39 Mnemonics Specification
+# NEEDS TO BE UPDATED from Ian Coleman's version
+# spec completely different from his
 
 # DRAFT
 
