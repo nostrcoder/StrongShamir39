@@ -25,10 +25,12 @@ This can be compiled from source using the command `python compile.py`
 ## Usage
 
 1. Web interface under:
-[nostrcoder.github.io/StrongShamir39/src/index.html](https://nostrcoder.github.io/StrongShamir39/src/index.html), or
+
+[nostrcoder.github.io/StrongShamir39/src/index.html](https://nostrcoder.github.io/StrongShamir39/src/index.html), 
+or:
 [nostrcoder.github.io/StrongShamir39/standalone.html](https://nostrcoder.github.io/StrongShamir39/standalone.html)
 
-2. Coding examples will be provided
+3. Coding examples will be provided
 
 ## Making changes
 
