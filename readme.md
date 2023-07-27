@@ -12,7 +12,7 @@ The idea (and the UI) is inspired by Ian Coleman's Shamir39 but the cryptography
 
 ## Online Version
 
-https://nostrcoder.github.io/StrongShamir39/
+[https://nostrcoder.github.io/StrongShamir39/]
 
 ## Standalone offline version
 
