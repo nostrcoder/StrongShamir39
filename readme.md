@@ -40,6 +40,7 @@ Make changes in `src/*` and apply them using the command `python compile.py`
 # ToDo
 
 * clean up code residues, the console dumps and test code in comments
+* update UI texts
 * implement automatic testing routines
 * provide coding examples
 * optimize for speed and memory usage: now LongBinary implemented as array of boolean, change it to Uint32Array)

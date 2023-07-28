@@ -874,7 +874,7 @@ StrongShamir39 = function() {
     return out;
   };
 
-  init(11); // 11 bits = 2048-1 shares maximum
+//  init(11); // 11 bits = 2048-1 shares maximum
 
 }
 

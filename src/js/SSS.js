@@ -87,7 +87,7 @@ function getShares(secret, numShares, threshold) {
     // otherwise less than threshhold shares suffice for reconstruction!
     // so repeat if the highest coeff is zero
   }
-  console.log('coeffs: ' + coeffs);
+  //console.log('coeffs: ' + coeffs);
 
   // compute the values of f(x) at the x-points 1,...,numShares
   for (var i = 1, len = numShares + 1; i < len; i++) {
