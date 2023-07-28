@@ -389,7 +389,7 @@ StrongShamir39 = function() {
     primitivePolynomials: [null, null, 1, 3, 3, 5, 3, 3, 29, 17, 9, 5, 83, 27, 43, 3, 45, 9, 39, 39, 9, 5, 3, 33, 27, 9, 71, 39, 9, 5, 83],
 
     // warning for insecure PRNG
-    warning: 'WARNING:\nA secure random number generator was not found.\nUsing Math.random(), which is NOT cryptographically strong!'
+    warning: 'WARNING'
   };
 
   // Protected settings object
@@ -458,6 +458,7 @@ StrongShamir39 = function() {
 
     // node.js crypto.randomBytes()
     if (typeof require === 'function' && (crypto = require('crypto')) && (randomBits = crypto['randomBytes'])) {
+      console.log("Using node.js function randomBytes() for randomness")
       return function(bits) {
         var bytes = Math.ceil(bits / 8),
           str = null;
@@ -470,7 +471,8 @@ StrongShamir39 = function() {
     }
 
     // browsers with window.crypto.getRandomValues()
-    if (window['crypto'] && typeof window['crypto']['getRandomValues'] === 'function' && typeof window['Uint32Array'] === 'function') {
+    if (false && window['crypto'] && typeof window['crypto']['getRandomValues'] === 'function' && typeof window['Uint32Array'] === 'function') {
+      console.log("Using browser's crypto function getRandomValues() for randomness")
       crypto = window['crypto'];
       return function(bits) {
         var elems = Math.ceil(bits / 32),
@@ -537,6 +539,13 @@ StrongShamir39 = function() {
   function isSetRNG() {
     return typeof config.rng === 'function';
   };
+
+  this.testRNG = function() {
+    if (!isSetRNG()) {
+      setRNG();
+    }
+    console.log(config.rng(1325));
+  }
 
   // Generates a random bits-length number string using the PRNG
   function random(bits) {
@@ -869,5 +878,19 @@ StrongShamir39 = function() {
 
 }
 
+/*
+a = new Uint32Array(2);
+a[0] = 10;
+a[1] = 2;
+a[2] = 3;
+console.log(a);
+console.log(a.toString());
+console.log(a.toString(2));
+
+throw "OK"
+
+let ss = new StrongShamir39();
+ss.testRNG();
+*/
 // for node.js:
 // module.exports = StrongShamir39;

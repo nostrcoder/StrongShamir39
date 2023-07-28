@@ -39,12 +39,11 @@ Make changes in `src/*` and apply them using the command `python compile.py`
 
 # ToDo
 
-- improve randomness of randomElement()
-- clean up code residues, the console dumps and test code in comments
-- implement automatic testing routines
-- provide coding examples
-- optimize for speed and memory usage: now LongBinary implemented as array of boolean, change it to Uint32Array)
-- maybe: make another version with 2-level shares (groups and members like in SLIP39)
+* clean up code residues, the console dumps and test code in comments
+* implement automatic testing routines
+* provide coding examples
+* optimize for speed and memory usage: now LongBinary implemented as array of boolean, change it to Uint32Array)
+* maybe: make another version with 2-level shares (groups and members like in SLIP39)
 
 # License
 

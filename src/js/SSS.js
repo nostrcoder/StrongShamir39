@@ -2,17 +2,59 @@
 //const GF = require('./BigGF.js');
 const GF = BigGF;
 
-// TODO: improve randomness
+// Returns a random element of gf
 function randomElement(gf) {
   let degree = gf.degree;
-  let res = gf.getElement(0);
-  for (var i = 0; i < degree; i++) {
-    if (Math.round(Math.random()) == 1) {
-      res = res.setBit(i);
-    }; // biased to 0!
-  }
-  return res;
+  let binStr = getRandomBinStr(degree);
+  return gf.getElement(binStr);
 }
+
+// Returns a pseudo-random string of '0' and '1' 
+// with the length = bits
+function getRandomBinStr(bits) {
+
+  let bytes = Math.ceil(bits / 8);
+  let byteArray = [];
+
+  if (typeof require === 'function' && (crypto = require('crypto')) && (randomBits = crypto['randomBytes'])) {
+    // console.log("Using node.js function randomBytes() for randomness")
+    // node.js crypto.randomBytes()
+    byteArray = Array.from(randomBits(bytes));
+
+  } else if (typeof window !== 'undefined' && window['crypto'] && typeof window['crypto']['getRandomValues'] === 'function' && typeof window['Uint32Array'] === 'function') {
+    // console.log("Using browser's crypto function getRandomValues() for randomness")
+    // browsers with window.crypto.getRandomValues()
+
+    let uArray = new window['Uint8Array'](bytes);
+    window['crypto']['getRandomValues'](uArray);
+    byteArray = Array.from(uArray);
+
+  } else {
+    // A totally insecure RNG!!! (except in Safari)
+    // Will produce a warning every time it is called.
+    // console.log("Using unsecure Math.random() function for randomness")
+
+    let alertStr = 'WARNING:\nA secure random number generator was not found.\nUsing Math.random(), which is NOT cryptographically strong!'
+    console.warn(alertStr);
+    if (typeof window !== 'undefined' && typeof window['alert'] === 'function') {
+      window['alert'](alertStr);
+    }
+
+    for (let i = 0; i < bytes; i++) {
+      byteArray[i] = Math.floor(Math.random() * 256);
+    }
+
+  }
+
+  let binStrs = byteArray.map(function(byte) {
+    let str = byte.toString(2);
+    return '0'.repeat(8 - str.length) + str;
+  });
+
+  let binStr = binStrs.join('').slice(0, bits);
+
+  return binStr;
+};
 
 // TODO: add array of 01 to LongBinary.set
 // This is the basic SSS function
@@ -337,3 +379,18 @@ for (let i = 0; i < 5; i++) {
 
 // for node.js:
 // module.exports = { getShares, lagrange };
+
+/*
+function testR(bits) {
+  console.log(bits + ' bits: ' + getRandomBinStr(bits));
+}
+
+testR(1);
+testR(2);
+testR(8);
+testR(9);
+testR(10);
+testR(16);
+testR(17);
+
+*/
