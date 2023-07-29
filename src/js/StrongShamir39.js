@@ -1,6 +1,9 @@
 // for node.js:
-// const { getShares, lagrange } = require('./SSS.js');
-// const sjcl = require('./sjcl-bip39.js');
+if (typeof process !== 'undefined' && process.versions && process.versions.node) {
+  // Running in Node.js
+  var { GF, randomElement, getShares, lagrange } = require('./StrongSSS.js');
+  var sjcl = require('./sjcl-bip39.js');
+}
 
 StrongShamir39 = function() {
 
@@ -183,6 +186,13 @@ StrongShamir39 = function() {
   // Combines StrongShamir39 mnemonics into a BIP39 mnemonic
   // parts is an array of string arrays, each of which represents one BIP39 word (or the version word if 1st)
   this.combine = function(parts, wordlist) {
+
+    if (typeof parts === 'undefined' || typeof parts.length == 0) {
+      return {
+        error: "No shares to combine"
+      };
+    }
+
     // check whether 1st word is a version word
     // if so, check the version and cut off
     let ssMnemonicLength = 0;
@@ -287,10 +297,17 @@ StrongShamir39 = function() {
       //console.log(payloadBinStr.length)
     }
 
-    //console.log(shares)
+    if(shares.length == 0) {
+        return {
+          mnemonic: []
+        };
+      
+    }
 
+    // Here the shares are put together 
+    //following Shamir Secret Sharing Algorithm:
     let secretBinStr = lagrange(shares).toString();
-
+    
     //console.log(secretBinStr)
 
     // now compute bip39 checksum for secret
@@ -328,4 +345,7 @@ StrongShamir39 = function() {
 }
 
 // for node.js:
-// module.exports = StrongShamir39;
+if (typeof process !== 'undefined' && process.versions && process.versions.node) {
+  // Running in Node.js
+  module.exports = StrongShamir39;
+}

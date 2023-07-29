@@ -1,5 +1,12 @@
 // for node.js:
-//const LongBinary = require('./LongBinary.js');
+if (typeof process !== 'undefined' && process.versions && process.versions.node) {
+  // Running in Node.js
+  var LongBinary = require('./FastLongBinary.js');
+} else {
+  // Running in browser
+  var LongBinary = FastLongBinary;
+}
+
 
 class BigGF {
 
@@ -147,6 +154,8 @@ class BigGF {
 }
 
 // used methods of elements
+// constructor
+// .set
 // .getDegree
 // .xor 
 // .lshift
@@ -156,6 +165,7 @@ class BigGF {
 // .isZero
 // .set
 // .getBit
+// .setBit
 
 const irreducibleCoefficients = [
   4, 3, 1, 5, 3, 1, 4, 3, 1, 7, 3, 2, 5, 4, 3, 5, 3, 2, 7, 4, 2, 4, 3, 1, 10, 9, 3, 9, 4, 2, 7, 6, 2, 10, 9,
@@ -854,4 +864,7 @@ function polyToLongBinary(deg) {
 }
 
 // for node.js:
-// module.exports = BigGF;
+if (typeof process !== 'undefined' && process.versions && process.versions.node) {
+  // Running in Node.js
+  module.exports = BigGF;
+}

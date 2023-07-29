@@ -1,6 +1,11 @@
 // for node.js:
-//const GF = require('./BigGF.js');
-const GF = BigGF;
+if (typeof process !== 'undefined' && process.versions && process.versions.node) {
+  // Running in Node.js
+  var GF = require('./BigGF.js');
+} else {
+  // Running in browser  
+  var GF = BigGF;
+}
 
 // Returns a random element of gf
 function randomElement(gf) {
@@ -60,8 +65,6 @@ function getRandomBinStr(bits) {
 // This is the basic SSS function
 // secret can be:
 // - a 01-string
-// - an array of booleans
-// - an array of 01 (to be implemented in LongBinary.set)
 function getShares(secret, numShares, threshold) {
 
   let degree = secret.length;
@@ -121,28 +124,54 @@ function lagrange(points) {
   let degree = points[0]['y'].length;
   let gf = new GF(degree);
 
-  let fAt0 = [];
+  // precompute the x-coeffs of points as GF-elements
+  // and their product xProduct
+  let x = [];
+  let xProcuct;
+  for (let i = 0; i < points.length; i++) {
+    x[i] = gf.getElement(points[i]['x']);
+    if (i == 0) {
+      xProduct = x[0];
+    } else {
+      xProduct = gf.mul(xProduct, x[i]);
+    };
+  }
+
+  // precompute differences and inverses and product of all x (xProduct)
+  // many inverses repeat
+  let dif = [];
+  for (let i = 0; i < points.length; i++) {
+    dif[i] = [];
+    for (let j = 0; j < i; j++) {
+      dif[i][j] = gf.sub(x[i], x[j]);
+    }
+  }
+
+  // compute lagrange polynomial given by points at x=0
+  // meaning: compute the lowest coeff of this polynomial
   let yAt0 = gf.getElement(0);
   for (let i = 0; i < points.length; i++) {
-    fAt0[i] = gf.getElement(points[i]['y']);
-    //    console.log('fAt0['+i+']='+fAt0[i])
+    let denumerator = x[i];
     for (let j = 0; j < points.length; j++) {
       if (i != j) {
-        let numerator = gf.getElement(points[j]['x']);
-        //        console.log('numerator='+numerator)
-        let denumerator = gf.sub(gf.getElement(points[i]['x']), gf.getElement(points[j]['x']));
-        //        console.log('denumerator='+denumerator)
-        numerator = gf.mul(numerator, gf.inv(denumerator));
-        //        console.log('term='+numerator)
-        fAt0[i] = gf.mul(fAt0[i], numerator);
-        //        console.log('fAt0['+i+']='+fAt0[i])    
+        let term = dif[Math.max(i, j)][Math.min(i, j)];
+        denumerator = gf.mul(denumerator, term);
       }
     }
-    yAt0 = gf.add(yAt0, fAt0[i]).pad(degree);
-    //    console.log('yAt0='+yAt0)    
+    let inverse = gf.inv(denumerator);
+
+    let enumerator = gf.getElement(points[i]['y']);
+    enumerator = gf.mul(inverse,enumerator);
+    
+    yAt0 = gf.add(yAt0, enumerator);
   }
+  yAt0 = gf.mul(yAt0,xProduct);
+  yAt0 = yAt0.pad(degree);
   return yAt0;
 }
 
 // for node.js:
-// module.exports = { getShares, lagrange };
+if (typeof process !== 'undefined' && process.versions && process.versions.node) {
+  // Running in Node.js
+  module.exports = { GF, randomElement, getShares, lagrange };
+}

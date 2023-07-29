@@ -1,3 +1,9 @@
+// This version of LongBinary
+// implements long binary chains using an array of booleans 
+// It exactly represents the length of each chain
+// but this precision isn't needed in the context of Galois Fields
+// IT IS MUCH SLOWER than FastLongBinary and it isn't currently used in StrongShamir39
+
 class LongBinary {
   constructor(value, bits) {
     // create with value 0
@@ -235,4 +241,7 @@ class LongBinary {
 }
 
 // for node.js:
-// module.exports = LongBinary;
+if (typeof process !== 'undefined' && process.versions && process.versions.node) {
+  // Running in Node.js
+  module.exports = LongBinary;
+}

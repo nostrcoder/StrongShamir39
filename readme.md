@@ -42,7 +42,7 @@ Make changes in `src/*` and apply them using the command `python compile.py`
 * update UI texts
 * implement automatic testing routines
 * provide coding examples
-* optimize for speed and memory usage: now LongBinary implemented as array of boolean, change it to Uint32Array)
+* implement quality of shamir shares (the more similar a share is to the initial bip39 mnemonic, the less secure it is for the given bip39 mnemonic. compute the digital distance as a quality measure)
 * maybe: make another version with 2-level shares (groups and members like in SLIP39)
 
 # License
